@@ -7,7 +7,7 @@ on:
 
 # This is required to allow the workflow to enable pages
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -26,9 +26,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        with:
-          # This will automatically enable Pages for the repository
-          enablement: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
