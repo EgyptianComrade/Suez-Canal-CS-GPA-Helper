@@ -224,88 +224,111 @@ def main():
     if error:
         console.print(f"[bold red]{error}[/bold red]"); return
         
-    selected_data_file = select_data_file(console)
-    if not selected_data_file:
-        return
-        
-    student_response, error = load_json_data(selected_data_file)
-    if error:
-        console.print(f"[bold red]{error}[/bold red]"); return
+    # Check if running in a non-interactive CI environment
+    is_ci = os.getenv('CI') == 'true' or os.getenv('GITHUB_ACTIONS') == 'true'
 
-    semesters, passed, level, error = process_student_data(student_response, curriculum)
-    if error:
-        console.print(f"[bold red]{error}[/bold red]"); return
+    if is_ci:
+        # Non-interactive mode for GitHub Actions
+        console.print("[dim]CI environment detected. Running in non-interactive mode...[/dim]")
+        student_response, error = load_json_data('Response.txt')
+        if error:
+            console.print(f"[bold red]{error}[/bold red]"); return
 
-    while True:
-        clear_console()
-        title = f"[bold cyan]Student GPA & Progress Advisor[/bold cyan]\n[dim]Using file: {selected_data_file}[/dim]"
-        console.print(Panel(title, border_style="green"))
-        
-        choice = questionary.select(
-            "What would you like to do?",
-            choices=[
-                "View My Degree Progress",
-                "View Report for a Specific Semester",
-                "View Full GPA Report (All Semesters)",
-                "Show Cumulative GPA Only",
-                "Change Data File",
-                "Exit"
-            ]
-        ).ask()
-
-        if choice == "View My Degree Progress":
-            display_progress_report(console, curriculum, passed)
-        elif choice == "View Full GPA Report (All Semesters)":
-            if semesters:
-                display_all_semesters(console, semesters)
-        
-        elif choice == "View Report for a Specific Semester":
-            if not semesters:
-                console.print("[yellow]No semesters available to select.[/yellow]")
-                continue
+        semesters, passed, level, error = process_student_data(student_response, curriculum)
+        if error:
+            console.print(f"[bold red]{error}[/bold red]"); return
             
-            semester_choices = {f"{s['year_str']} - {s['semester_name']}": sid for sid, s in semesters.items() if sid is not None}
-            if not semester_choices:
-                console.print("[yellow]No semesters available to select.[/yellow]")
-                continue
+        # Print all reports
+        console.print(Panel("[bold cyan]Full Academic Report[/bold cyan]", border_style="green", expand=False))
+        display_all_semesters(console, semesters)
+        display_cumulative_gpa(console, semesters)
+        display_progress_report(console, curriculum, passed)
+        console.print("\n[green]✅ Report generation complete.[/green]")
+
+    else:
+        # Interactive mode for local execution
+        selected_data_file = select_data_file(console)
+        if not selected_data_file:
+            return
             
-            selected_semester_name = questionary.select(
-                "Choose a semester:",
-                choices=list(semester_choices.keys())
+        student_response, error = load_json_data(selected_data_file)
+        if error:
+            console.print(f"[bold red]{error}[/bold red]"); return
+
+        semesters, passed, level, error = process_student_data(student_response, curriculum)
+        if error:
+            console.print(f"[bold red]{error}[/bold red]"); return
+
+        while True:
+            clear_console()
+            title = f"[bold cyan]Student GPA & Progress Advisor[/bold cyan]\n[dim]Using file: {selected_data_file}[/dim]"
+            console.print(Panel(title, border_style="green"))
+            
+            choice = questionary.select(
+                "What would you like to do?",
+                choices=[
+                    "View My Degree Progress",
+                    "View Report for a Specific Semester",
+                    "View Full GPA Report (All Semesters)",
+                    "Show Cumulative GPA Only",
+                    "Change Data File",
+                    "Exit"
+                ]
             ).ask()
-            
-            if selected_semester_name:
-                selected_id = semester_choices[selected_semester_name]
-                display_semester(console, semesters[selected_id], selected_semester_name)
 
-        elif choice == "Show Cumulative GPA Only":
-            if semesters:
-                display_cumulative_gpa(console, semesters)
-        
-        elif choice == "Change Data File":
-            selected_data_file = select_data_file(console)
-            if not selected_data_file:
-                # If user cancels file selection, we can either exit or continue with old data.
-                # For now, let's just loop back to the menu.
-                console.print("[yellow]No new file selected. Continuing with the current file.[/yellow]")
-            else:
-                student_response, error = load_json_data(selected_data_file)
-                if error:
-                    console.print(f"[bold red]{error}[/bold red]")
-                    console.print("[bold yellow]Reverting to previous data file.[/bold yellow]")
+            if choice == "View My Degree Progress":
+                display_progress_report(console, curriculum, passed)
+            elif choice == "View Full GPA Report (All Semesters)":
+                if semesters:
+                    display_all_semesters(console, semesters)
+            
+            elif choice == "View Report for a Specific Semester":
+                if not semesters:
+                    console.print("[yellow]No semesters available to select.[/yellow]")
+                    continue
+                
+                semester_choices = {f"{s['year_str']} - {s['semester_name']}": sid for sid, s in semesters.items() if sid is not None}
+                if not semester_choices:
+                    console.print("[yellow]No semesters available to select.[/yellow]")
+                    continue
+                
+                selected_semester_name = questionary.select(
+                    "Choose a semester:",
+                    choices=list(semester_choices.keys())
+                ).ask()
+                
+                if selected_semester_name:
+                    selected_id = semester_choices[selected_semester_name]
+                    display_semester(console, semesters[selected_id], selected_semester_name)
+
+            elif choice == "Show Cumulative GPA Only":
+                if semesters:
+                    display_cumulative_gpa(console, semesters)
+            
+            elif choice == "Change Data File":
+                selected_data_file = select_data_file(console)
+                if not selected_data_file:
+                    # If user cancels file selection, we can either exit or continue with old data.
+                    # For now, let's just loop back to the menu.
+                    console.print("[yellow]No new file selected. Continuing with the current file.[/yellow]")
                 else:
-                    semesters, passed, level, error = process_student_data(student_response, curriculum)
+                    student_response, error = load_json_data(selected_data_file)
                     if error:
                         console.print(f"[bold red]{error}[/bold red]")
-                        console.print("[bold yellow]Could not process new file, reverting to previous data.[/bold yellow]")
+                        console.print("[bold yellow]Reverting to previous data file.[/bold yellow]")
                     else:
-                        console.print(f"[green]Successfully loaded new data from {selected_data_file}[/green]")
+                        semesters, passed, level, error = process_student_data(student_response, curriculum)
+                        if error:
+                            console.print(f"[bold red]{error}[/bold red]")
+                            console.print("[bold yellow]Could not process new file, reverting to previous data.[/bold yellow]")
+                        else:
+                            console.print(f"[green]Successfully loaded new data from {selected_data_file}[/green]")
 
-        elif choice == "Exit":
-            break
-        
-        if choice != "Exit":
-            questionary.press_any_key_to_continue().ask()
+            elif choice == "Exit" or choice is None:
+                break
+            
+            if choice != "Exit":
+                questionary.press_any_key_to_continue().ask()
 
 if __name__ == "__main__":
     main() 
