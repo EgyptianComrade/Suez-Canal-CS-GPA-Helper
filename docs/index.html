@@ -168,43 +168,41 @@
         </div>
         
         <div class="card">
-            <h2>🚀 Quick Start (No Download Required!)</h2>
-            <p>Use this tool directly on GitHub without installing anything. Since the data is too large for the input field, we will use a GitHub Gist.</p>
-            
-            <ol class="steps">
-                <li>First, get your student data as described in the section below.</li>
-                <li>Go to <a href="https://gist.github.com/" target="_blank">gist.github.com</a> and paste your copied data into the main text area.</li>
-                <li>Give it a filename, for example: <code>data.txt</code>.</li>
-                <li>Click "Create secret gist" (or public, your choice).</li>
-                <li>On the next page, click the <strong>"Raw"</strong> button to view the raw text.</li>
-                <li>Copy the URL from your browser's address bar. It will look something like <code>https://gist.githubusercontent.com/.../raw/.../data.txt</code>.</li>
-                <li>Go to the <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper/actions" target="_blank">Actions tab</a> on this repository.</li>
-                <li>Click on "Run GPA & Progress Advisor" in the left sidebar.</li>
-                <li>Click the "Run workflow" button.</li>
-                <li>Paste the <strong>Gist Raw URL</strong> into the input field.</li>
-                <li>Click "Run workflow" and wait for the results!</li>
-            </ol>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper/actions" target="_blank" class="btn">🚀 Run GPA Calculator</a>
-                <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper" target="_blank" class="btn btn-secondary">📁 View Repository</a>
-            </div>
-        </div>
-        
-        <div class="card">
             <h2>📋 How to Get Your Student Data</h2>
             <ol class="steps">
                 <li>Log in to the Suez University student portal: <code>http://credit.suez.edu.eg/static/PortalStudent.html#</code></li>
-                <li>Open Developer Tools in your browser (F12 or Ctrl+Shift+I)</li>
-                <li>Go to the <strong>Network</strong> tab</li>
-                <li>Navigate to "Student Academic Register" page</li>
-                <li>Find the network request named <code>getJCI</code>, click on it</li>
-                <li>Go to the <strong>Response</strong> tab</li>
-                <li>Copy the <strong>entire</strong> JSON content. This is the data you will paste into the Gist.</li>
+                <li>Open Developer Tools in your browser (F12 or Ctrl+Shift+I).</li>
+                <li>Go to the <strong>Network</strong> tab.</li>
+                <li>Navigate to the "Student Academic Register" page.</li>
+                <li>Find the network request named <code>getJCI</code> and click on it.</li>
+                <li>Go to the <strong>Response</strong> tab.</li>
+                <li>Copy the <strong>entire</strong> JSON content. This is the data you will need for the next section.</li>
             </ol>
             
             <div class="warning">
                 <strong>💡 Pro Tip:</strong> Before using the GitHub Action, you can test your data locally to make sure it's in the correct format by running <code>python test_action.py</code>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🚀 Run the Advisor on Your Own Fork</h2>
+            <p>To use the GPA Advisor, you must first create your own copy (a "fork") of this repository. This allows you to run the action securely on your own GitHub account.</p>
+            
+            <ol class="steps">
+                <li>Click the "Fork" button at the top-right of the GitHub page, or click the button below to start.</li>
+                <li>Once you are on <strong>your forked repository</strong>, go to the "Actions" tab.</li>
+                <li>Click on "Run GPA & Progress Advisor" in the left sidebar.</li>
+                <li>Click the "Run workflow" button.</li>
+                <li>Now, create a GitHub Gist: go to <a href="https://gist.github.com/" target="_blank">gist.github.com</a> and paste the student data you copied.</li>
+                <li>Give the Gist a filename (e.g., <code>data.txt</code>) and click "Create secret gist".</li>
+                <li>On the Gist page, click the <strong>"Raw"</strong> button and copy the URL from your browser.</li>
+                <li>Paste this <strong>Gist Raw URL</strong> into the workflow's input field back on GitHub Actions.</li>
+                <li>Click "Run workflow" and wait for the results in the action log!</li>
+            </ol>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper/fork" target="_blank" class="btn">🚀 Fork Repository to Start</a>
+                <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper" target="_blank" class="btn btn-secondary">📁 View Original Repository</a>
             </div>
         </div>
         
