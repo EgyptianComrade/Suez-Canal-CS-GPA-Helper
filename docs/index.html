@@ -290,12 +290,28 @@
             <h2>💻 Run Locally on Your Machine</h2>
             <p>Prefer to run the script on your own computer? Here's how to set it up locally for faster, more private processing.</p>
             
+            <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">📋 Prerequisites</h3>
+            <ol class="steps">
+                <li><strong>Install Python:</strong> Download Python from <a href="https://python.org" target="_blank">python.org</a>. During installation, make sure to check "Add Python to PATH" on Windows.</li>
+                <li><strong>Install Git (optional):</strong> Download from <a href="https://git-scm.com" target="_blank">git-scm.com</a> if you want to use Git commands, or just download the ZIP file.</li>
+            </ol>
+            
+            <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">📥 Download the Project</h3>
+            <p><strong>Option A: Download ZIP (Easiest)</strong></p>
+            <ol class="steps">
+                <li>Go to the <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper" target="_blank">GitHub repository</a></li>
+                <li>Click the green "Code" button</li>
+                <li>Select "Download ZIP"</li>
+                <li>Extract the ZIP file to a folder on your computer (e.g., Desktop)</li>
+            </ol>
+            
+            <p><strong>Option B: Using Git (Advanced)</strong></p>
             <table class="command-table">
                 <thead>
                     <tr>
                         <th>Step</th>
                         <th>Command</th>
-                        <th>Action</th>
+                        <th>What it does</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -307,43 +323,92 @@
                                 <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper.git', this)">📋 Copy</button>
                             </div>
                         </td>
-                        <td>Download the project using Git</td>
+                        <td>Downloads the project files to your computer</td>
                     </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">🔧 Open Terminal/Command Prompt</h3>
+            <ol class="steps">
+                <li><strong>On Windows:</strong> Press Win + R, type "cmd" and press Enter, OR search for "Command Prompt" in the Start menu</li>
+                <li><strong>On Mac:</strong> Press Cmd + Space, type "Terminal" and press Enter</li>
+                <li><strong>On Linux:</strong> Press Ctrl + Alt + T</li>
+                <li>Navigate to the project folder using the <code>cd</code> command. For example: <code>cd Desktop/my-mongo-project</code></li>
+            </ol>
+            
+            <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">📦 Install Dependencies</h3>
+            <p>These are additional programs the script needs to work properly.</p>
+            <table class="command-table">
+                <thead>
                     <tr>
-                        <td><strong>2</strong></td>
+                        <th>Step</th>
+                        <th>Command</th>
+                        <th>What it does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1</strong></td>
                         <td>
                             <div class="command-code">
                                 <span>pip install -r requirements.txt</span>
                                 <button class="copy-btn" onclick="copyToClipboard('pip install -r requirements.txt', this)">📋 Copy</button>
                             </div>
                         </td>
-                        <td>Install Python dependencies</td>
+                        <td>Installs all the required Python packages</td>
                     </tr>
                     <tr>
-                        <td><strong>3</strong></td>
+                        <td><strong>2</strong></td>
                         <td>
                             <div class="command-code">
                                 <span>python build_curriculum.py</span>
                                 <button class="copy-btn" onclick="copyToClipboard('python build_curriculum.py', this)">📋 Copy</button>
                             </div>
                         </td>
-                        <td>Build the curriculum data</td>
+                        <td>Creates the curriculum data file needed for calculations</td>
                     </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">🚀 Run the GPA Calculator</h3>
+            <table class="command-table">
+                <thead>
                     <tr>
-                        <td><strong>4</strong></td>
+                        <th>Step</th>
+                        <th>Command</th>
+                        <th>What it does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1</strong></td>
                         <td>
                             <div class="command-code">
                                 <span>python gpa_calculator.py</span>
                                 <button class="copy-btn" onclick="copyToClipboard('python gpa_calculator.py', this)">📋 Copy</button>
                             </div>
                         </td>
-                        <td>Run the GPA calculator</td>
+                        <td>Starts the GPA calculator program</td>
                     </tr>
                 </tbody>
             </table>
             
+            <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">📝 Using the Program</h3>
+            <ol class="steps">
+                <li>When the program starts, it will ask you to paste your student data</li>
+                <li>Copy the JSON data from the student portal (see "How to Get Your Student Data" section above)</li>
+                <li>Right-click in the terminal to paste (or Ctrl+V on some systems)</li>
+                <li>Press Enter to submit the data</li>
+                <li>Use the menu to explore different reports and analyses</li>
+            </ol>
+            
             <div class="warning">
-                <strong>🔧 Troubleshooting:</strong> If you get import errors, make sure all dependencies are installed. On Windows, you might need to use <code>python -m pip install -r requirements.txt</code>
+                <strong>🔧 Troubleshooting:</strong>
+                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                    <li>If you get "python not found", try using <code>python3</code> instead of <code>python</code></li>
+                    <li>On Windows, if pip doesn't work, try <code>python -m pip install -r requirements.txt</code></li>
+                    <li>Make sure you're in the correct folder - you should see files like <code>gpa_calculator.py</code> when you type <code>dir</code> (Windows) or <code>ls</code> (Mac/Linux)</li>
+                </ul>
             </div>
             
             <div style="text-align: center; margin-top: 2rem;">
