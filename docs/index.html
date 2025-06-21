@@ -169,13 +169,19 @@
         
         <div class="card">
             <h2>🚀 Quick Start (No Download Required!)</h2>
-            <p>Use this tool directly on GitHub without installing anything:</p>
+            <p>Use this tool directly on GitHub without installing anything. Since the data is too large for the input field, we will use a GitHub Gist.</p>
             
             <ol class="steps">
-                <li>Go to the <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper/actions" target="_blank">Actions tab</a> on GitHub</li>
-                <li>Click on "Run GPA & Progress Advisor" in the left sidebar</li>
-                <li>Click the "Run workflow" button (blue button)</li>
-                <li>Paste your student data in the input field</li>
+                <li>First, get your student data as described in the section below.</li>
+                <li>Go to <a href="https://gist.github.com/" target="_blank">gist.github.com</a> and paste your copied data into the main text area.</li>
+                <li>Give it a filename, for example: <code>data.txt</code>.</li>
+                <li>Click "Create secret gist" (or public, your choice).</li>
+                <li>On the next page, click the <strong>"Raw"</strong> button to view the raw text.</li>
+                <li>Copy the URL from your browser's address bar. It will look something like <code>https://gist.githubusercontent.com/.../raw/.../data.txt</code>.</li>
+                <li>Go to the <a href="https://github.com/EgyptianComrade/Suez-Canal-CS-GPA-Helper/actions" target="_blank">Actions tab</a> on this repository.</li>
+                <li>Click on "Run GPA & Progress Advisor" in the left sidebar.</li>
+                <li>Click the "Run workflow" button.</li>
+                <li>Paste the <strong>Gist Raw URL</strong> into the input field.</li>
                 <li>Click "Run workflow" and wait for the results!</li>
             </ol>
             
@@ -194,8 +200,7 @@
                 <li>Navigate to "Student Academic Register" page</li>
                 <li>Find the network request named <code>getJCI</code>, click on it</li>
                 <li>Go to the <strong>Response</strong> tab</li>
-                <li>Copy the <strong>entire</strong> JSON content</li>
-                <li>Paste this content into the GitHub Action input field</li>
+                <li>Copy the <strong>entire</strong> JSON content. This is the data you will paste into the Gist.</li>
             </ol>
             
             <div class="warning">

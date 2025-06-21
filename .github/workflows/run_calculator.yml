@@ -3,8 +3,8 @@ name: Run GPA & Progress Advisor
 on:
   workflow_dispatch:
     inputs:
-      student_response_json:
-        description: 'Paste the JSON response from the getJCI request here (see README for instructions)'
+      gist_url:
+        description: 'Paste the "Raw" URL of the GitHub Gist containing your student data.'
         required: true
         type: string
 
@@ -26,10 +26,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Create Response.txt from input
+    - name: Download student data from Gist
       run: |
-        echo "${{ github.event.inputs.student_response_json }}" > Response.txt
-        echo "✅ Successfully created Response.txt from provided data."
+        curl -L -o Response.txt "${{ github.event.inputs.gist_url }}"
+        echo "✅ Successfully downloaded student data from Gist."
 
     - name: Build Curriculum Data
       run: |
