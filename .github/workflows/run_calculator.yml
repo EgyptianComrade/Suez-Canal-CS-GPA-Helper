@@ -1,0 +1,57 @@
+name: Run GPA & Progress Advisor
+
+on:
+  workflow_dispatch:
+    inputs:
+      student_response_json:
+        description: 'Paste the JSON response from the getJCI request here (see README for instructions)'
+        required: true
+        type: string
+
+jobs:
+  calculate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Create Response.txt from input
+      run: |
+        echo "${{ github.event.inputs.student_response_json }}" > Response.txt
+        echo "✅ Successfully created Response.txt from provided data."
+
+    - name: Build Curriculum Data
+      run: |
+        python build_curriculum.py
+        echo "✅ Successfully built curriculum.json."
+        
+    - name: Run GPA Calculator
+      run: |
+        echo "🚀 Starting GPA calculation..."
+        echo "=========================================="
+        python gpa_calculator.py
+        echo "=========================================="
+        echo "✅ GPA calculation completed!"
+        
+    - name: Display Results Summary
+      run: |
+        echo "📊 Your academic report has been generated!"
+        echo ""
+        echo "📋 What you can see above:"
+        echo "   • Your semester-by-semester GPA breakdown"
+        echo "   • Cumulative GPA calculation"
+        echo "   • Degree progress percentage"
+        echo "   • Remaining courses with prerequisite status"
+        echo ""
+        echo "💡 Tip: You can run this action again anytime to check your progress!" 

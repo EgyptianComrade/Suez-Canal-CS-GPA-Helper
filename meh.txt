@@ -1,0 +1,205 @@
+### **First Level**  
+#### **1st Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| BSD101  | Calculus                         | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | -           |  
+| BSD103  | Discrete Mathematics             | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | -           |  
+| CSD102  | Basics of Computer Science       | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| ISD101  | Fundamentals of Information Systems | 2 | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| ISD102  | Introduction to Database Systems | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **15**       |            |                |               |                   |           | **500** |           |             |  
+
+#### **2nd Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| BSD104  | Linear Algebra                   | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | -           |  
+| BSD105  | Statistics and Probabilities     | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | BSD101      |  
+| BSD226  | Technical Writing                | 2       | -             | 2            | 60         | -              | 10            | 25                | 5         | 100   | 2         | -           |  
+| CSD101  | Digital Logic Design             | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| CSD106  | Fundamentals of Programming      | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD102      |  
+| ISD104  | System Analysis and Design       | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD102      |  
+| **Total** |                                  |         |               | **17**       |            |                |               |                   |           | **600** |           |             |  
+
+---
+
+### **Second Level**  
+#### **1st Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| BSD220  | Stochastic Process               | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | BSD105      |  
+| BSD222  | Operations Research              | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | BSD101, BSD104 |  
+| CSD221  | Data Structures                  | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD106      |  
+| CSD223  | Object-Oriented Programming      | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD106      |  
+| ISD224  | Web Pages Programming            | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| Elective (1) | Elective Course                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **18**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **2nd Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| BSD227  | Ordinary Differential Equations  | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | BSD101      |  
+| BSD228  | Advanced Math                    | 2       | 2             | 3            | 60         | -              | 10            | 25                | 5         | 100   | 2         | BSD101      |  
+| BSD232  | Physics                          | 2       | 1             | 2            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD101      |  
+| CSD230  | Analysis of Algorithms           | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD221      |  
+| ISD229  | Electronic Business              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| Elective (2) | Elective Course                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **17**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **Elective Courses (Second Level)**  
+| Code    | Course Title (Arabic/English)    | Prerequisite |  
+|---------|----------------------------------|-------------|  
+| ISD225  | Information Theory / نظرية المعلومات | -           |  
+| CSD231  | Concepts of Programming Languages / مفاهيم لغات البرمجة | CSD106 |  
+| ISD232  | Web Technology / تقنية الويب     | ISD224      |  
+| BSD233  | Numerical Analysis / التحليل الرقمي | BSD101      |  
+| BSD229  | Advanced Math-2 / الرياضيات المتقدمة | BSD228      |  
+| BSD234  | Partial Differential Equations   | BSD101      |  
+
+---
+
+### **Third Level – Computer Science**  
+#### **1st Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| CSD331  | Artificial Intelligence          | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD230      |  
+| CSD332  | Computer Architecture            | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD101      |  
+| CSD333  | Operating Systems                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD230      |  
+| CSD334  | Digital Image Processing         | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | BSD104, CSD230 |  
+| CSD335  | Assembly Language                | 2       | 1             | 2            | 60         | 10             | 10            | 15                | 5         | 100   | 2         | CSD101      |  
+| Elective (3) | Elective Course                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **17**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **2nd Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| CSD336  | Theory and Design of Compilers   | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD231      |  
+| CSD337  | Computer Graphics                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD230      |  
+| CSD338  | Introduction to Computer Networks | 2     | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD332      |  
+| CSD341  | Software Engineering             | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD104      |  
+| CSD340  | Simulation and Modeling          | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | BSD105      |  
+| Elective (4) | Elective Course                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **18**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **Elective Courses (Third Level – Computer Science)**  
+| Code    | Course Title (Arabic/English)    | Prerequisite |  
+|---------|----------------------------------|-------------|  
+| CSD342  | Advanced Programming Languages / لغات البرمجة المتقدمة | CSD223 |  
+| ISD303  | Information Visualization / تصور المعلومات | ISD101 |  
+| CSD343  | Digital Signal Processing / معالجة الإشارات الرقمية | CSD230 |  
+| CSD344  | Logic Programming / البرمجة المنطقية | CSD335 |  
+| ISD352  | Knowledge Representation and Reasoning / تمثيل المعرفة والاستدلال | - |  
+| CSD339  | Mobile Computing / الحوسبة المتنقلة | - |  
+| CSD345  | Computer Arabization / تعريب الحاسبات | CSD106 |  
+| ISD335  | Security and Cryptography / الأمن والتشفير | - |  
+| CSD346  | Human Computer Interaction       | CSD106 |  
+
+---
+
+Here is the continuation of the full curriculum, including **4th Level Computer Science**, **3rd Level Information Systems**, and **4th Level Information Systems** with their respective electives:
+
+---
+
+### **Third Level – Information Systems**  
+#### **1st Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| ISD347  | Computer Network Management      | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD104      |  
+| ISD331  | Information Retrieval Systems    | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD104      |  
+| CSD339  | Mobile Computing                 | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| ISD333  | Decision Support Systems         | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD104      |  
+| ISD338  | Big Data Analysis                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD104      |  
+| Elective (3) | Elective Course                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **18**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **2nd Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| CSD331  | Artificial Intelligence          | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD230      |  
+| ISD336  | Advanced Database Systems        | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD102      |  
+| ISD337  | Information Security             | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| CSD341  | Software Engineering             | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD104      |  
+| ISD365  | Electronic Government            | 2       | 1             | 2            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| Elective (4) | Elective Course                | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| **Total** |                                  |         |               | **17**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **Elective Courses (Third Level – Information Systems)**  
+| Code    | Course Title (Arabic/English)    | Prerequisite |  
+|---------|----------------------------------|-------------|  
+| CSD334  | Digital Image Processing / معالجة الصور الرقمية | BSD104, CSD230 |  
+| ISD334  | Management Information Systems / إدارة نظم المعلومات | ISD101 |  
+| ISD303  | Information Visualization / تصور المعلومات | ISD101 |  
+| ISD352  | Knowledge Representation & Reasoning / تمثيل المعرفة والمنطق | - |  
+| CSD342  | Advanced Programming Languages / لغات البرمجة المتقدمة | CSD223 |  
+
+---
+
+### **Fourth Level – Computer Science**  
+#### **1st Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| CSD441  | Mobile Communication Systems    | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD338      |  
+| CSD444  | Distributed Systems             | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD333      |  
+| CSD443  | Computer Vision Systems         | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD334      |  
+| Elective (5) | Elective Course              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| Elective (6) | Elective Course              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| CSD449  | Graduation Project              | 3       | -             | 3            | -          | -              | -             | -                 | -         | -     | -         | -           |  
+| **Total** |                                  |         |               | **18**       |            |                |               |                   |           | **500** |           |             |  
+
+#### **2nd Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| CSD451  | Computer and Network Security    | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD332      |  
+| CSD447  | Cloud Computing                 | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD444      |  
+| CSD442  | Neural Networks and Deep Learning | 2     | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD331      |  
+| Elective (7) | Elective Course              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| CSD449  | Graduation Project              | 3       | -             | 3            | -          | -              | -             | -                 | 200       | 200   | -         | CSD449 (1st Sem) |  
+| **Total** |                                  |         |               | **15**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **Elective Courses (Fourth Level – Computer Science)**  
+| Code    | Course Title (Arabic/English)    | Prerequisite |  
+|---------|----------------------------------|-------------|  
+| CSD452  | Dynamic Languages / اللغات الديناميكية | CSD106 |  
+| ISD471  | Data Mining / التنقيب عن البيانات | ISD102 |  
+| ISD338  | Big Data Analysis / تحليل البيانات الكبيرة | ISD104 |  
+| CSD453  | Introduction to Quantum Computing / الإحصاء الكمية | BSD228 |  
+| CSD458  | Cyber Security / الأمن السيبراني   | ISD337 |  
+| ISD441  | Bioinformatics / المعلوماتية الحيوية | ISD102 |  
+| CSD446  | Optimization Methods / طرق التحسين | CSD331 |  
+| CSD448  | Parallel Processing / المعالجة المتوازية | CSD333 |  
+| CSD445  | Introduction to Machine Learning | CSD331 |  
+
+---
+
+### **Fourth Level – Information Systems**  
+#### **1st Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| ISD441  | Bioinformatics                   | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD102      |  
+| ISD471  | Data Mining                      | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD102      |  
+| ISD444  | Medical Information Systems      | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD101      |  
+| Elective (5) | Elective Course              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| Elective (6) | Elective Course              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| ISD446  | Graduation Project               | 3       | -             | 3            | -          | -              | -             | -                 | -         | -     | -         | -           |  
+| **Total** |                                  |         |               | **18**       |            |                |               |                   |           | **500** |           |             |  
+
+#### **2nd Semester**  
+| Code    | Course Title                     | Lecture | Contact Hours | Credit Hours | Final Exam | Practical Exam | Mid-Term Exam | Course Activities | Oral Exam | Total | Exam Time | Prerequisite |  
+|---------|----------------------------------|---------|---------------|--------------|------------|----------------|---------------|-------------------|-----------|-------|-----------|-------------|  
+| CSD445  | Introduction to Machine Learning | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | CSD331      |  
+| ISD445  | Geographical Information Systems | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD334      |  
+| CSD458  | Cyber Security                   | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | ISD337      |  
+| Elective (7) | Elective Course              | 2       | 2             | 3            | 50         | 20             | 10            | 15                | 5         | 100   | 2         | -           |  
+| ISD446  | Graduation Project               | 3       | -             | 3            | -          | -              | -             | -                 | 200       | 200   | -         | ISD446 (1st Sem) |  
+| **Total** |                                  |         |               | **15**       |            |                |               |                   |           | **600** |           |             |  
+
+#### **Elective Courses (Fourth Level – Information Systems)**  
+| Code    | Course Title (Arabic/English)    | Prerequisite |  
+|---------|----------------------------------|-------------|  
+| ISD451  | XML Databases / قواعد بيانات XML | ISD102 |  
+| ISD453  | Web Information Systems / نظم معلومات الويب | - |  
+| ISD456  | Quantum Information / معلومات الكم | BSD228 |  
+| ISD455  | Electronic Health / الصحة الإلكترونية | - |  
+| ISD452  | Electronic Commerce / التجارة الإلكترونية | - |  
+| CSD446  | Optimization Systems / نظم التحسين | CSD331 |  
+| ISD454  | Cloud Computing Applications / تطبيقات الحوسبة السحابية | ISD332 |  
+

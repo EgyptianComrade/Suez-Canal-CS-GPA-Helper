@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env
+venv/
+env/
+
+# Sensitive User Data
+Response.txt
+curriculum.json
+
+# IDE and OS specific
+.vscode/
+.idea/
+.DS_Store
+*.swo
+*.swp 
