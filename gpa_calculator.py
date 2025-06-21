@@ -202,6 +202,20 @@ def display_progress_report(console, curriculum, passed_courses):
     
     console.print(table)
 
+def select_data_file(console):
+    """Finds .txt files and prompts the user to select one."""
+    txt_files = [f for f in os.listdir('.') if f.endswith('.txt')]
+    if not txt_files:
+        console.print("[bold red]No .txt files found in the directory.[/bold red]")
+        return None
+
+    selected_file = questionary.select(
+        "Please select your student data file:",
+        choices=txt_files
+    ).ask()
+    
+    return selected_file
+
 # --- Main Application ---
 def main():
     console = Console()
@@ -210,7 +224,11 @@ def main():
     if error:
         console.print(f"[bold red]{error}[/bold red]"); return
         
-    student_response, error = load_json_data('Response.txt')
+    selected_data_file = select_data_file(console)
+    if not selected_data_file:
+        return
+        
+    student_response, error = load_json_data(selected_data_file)
     if error:
         console.print(f"[bold red]{error}[/bold red]"); return
 
@@ -220,7 +238,8 @@ def main():
 
     while True:
         clear_console()
-        console.print(Panel("[bold cyan]Student GPA & Progress Advisor[/bold cyan]", border_style="green"))
+        title = f"[bold cyan]Student GPA & Progress Advisor[/bold cyan]\n[dim]Using file: {selected_data_file}[/dim]"
+        console.print(Panel(title, border_style="green"))
         
         choice = questionary.select(
             "What would you like to do?",
@@ -229,6 +248,7 @@ def main():
                 "View Report for a Specific Semester",
                 "View Full GPA Report (All Semesters)",
                 "Show Cumulative GPA Only",
+                "Change Data File",
                 "Exit"
             ]
         ).ask()
@@ -249,22 +269,43 @@ def main():
                 console.print("[yellow]No semesters available to select.[/yellow]")
                 continue
             
-            selected_name = questionary.select(
-                "Which semester would you like to view?",
-                choices=sorted(semester_choices.keys())
+            selected_semester_name = questionary.select(
+                "Choose a semester:",
+                choices=list(semester_choices.keys())
             ).ask()
             
-            if selected_name and selected_name in semester_choices:
-                selected_id = semester_choices[selected_name]
-                display_semester(console, semesters[selected_id], selected_name)
+            if selected_semester_name:
+                selected_id = semester_choices[selected_semester_name]
+                display_semester(console, semesters[selected_id], selected_semester_name)
 
         elif choice == "Show Cumulative GPA Only":
             if semesters:
                 display_cumulative_gpa(console, semesters)
-        elif choice == "Exit" or choice is None:
+        
+        elif choice == "Change Data File":
+            selected_data_file = select_data_file(console)
+            if not selected_data_file:
+                # If user cancels file selection, we can either exit or continue with old data.
+                # For now, let's just loop back to the menu.
+                console.print("[yellow]No new file selected. Continuing with the current file.[/yellow]")
+            else:
+                student_response, error = load_json_data(selected_data_file)
+                if error:
+                    console.print(f"[bold red]{error}[/bold red]")
+                    console.print("[bold yellow]Reverting to previous data file.[/bold yellow]")
+                else:
+                    semesters, passed, level, error = process_student_data(student_response, curriculum)
+                    if error:
+                        console.print(f"[bold red]{error}[/bold red]")
+                        console.print("[bold yellow]Could not process new file, reverting to previous data.[/bold yellow]")
+                    else:
+                        console.print(f"[green]Successfully loaded new data from {selected_data_file}[/green]")
+
+        elif choice == "Exit":
             break
         
-        questionary.press_any_key_to_continue().ask()
+        if choice != "Exit":
+            questionary.press_any_key_to_continue().ask()
 
 if __name__ == "__main__":
     main() 
