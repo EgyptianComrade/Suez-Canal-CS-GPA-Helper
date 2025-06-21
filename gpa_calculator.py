@@ -202,19 +202,31 @@ def display_progress_report(console, curriculum, passed_courses):
     
     console.print(table)
 
-def select_data_file(console):
-    """Finds .txt files and prompts the user to select one."""
-    txt_files = [f for f in os.listdir('.') if f.endswith('.txt')]
-    if not txt_files:
-        console.print("[bold red]No .txt files found in the directory.[/bold red]")
-        return None
-
-    selected_file = questionary.select(
-        "Please select your student data file:",
-        choices=txt_files
-    ).ask()
+def get_pasted_data(console):
+    """Prompts the user to paste JSON data and parses it."""
+    console.print(
+        Panel(
+            "[bold yellow]Please paste the JSON content from the student portal below.[/bold yellow]\n\n"
+            "[dim]On Windows, right-click to paste. On macOS/Linux, use standard paste shortcuts.\n"
+            "After pasting, press ESC and then Enter to submit.[/dim]",
+            title="[bold]Awaiting Student Data[/bold]",
+            border_style="blue"
+        )
+    )
     
-    return selected_file
+    json_input = questionary.text(
+        "Paste your JSON here:",
+        multiline=True
+    ).ask()
+
+    if not json_input:
+        return None, "No data was pasted."
+
+    try:
+        data = json.loads(json_input)
+        return data, None
+    except json.JSONDecodeError:
+        return None, "Error: Invalid JSON format. Please make sure you copied the entire content correctly."
 
 # --- Main Application ---
 def main():
@@ -247,13 +259,10 @@ def main():
 
     else:
         # Interactive mode for local execution
-        selected_data_file = select_data_file(console)
-        if not selected_data_file:
-            return
-            
-        student_response, error = load_json_data(selected_data_file)
+        student_response, error = get_pasted_data(console)
         if error:
-            console.print(f"[bold red]{error}[/bold red]"); return
+            console.print(f"[bold red]{error}[/bold red]")
+            return
 
         semesters, passed, level, error = process_student_data(student_response, curriculum)
         if error:
@@ -261,8 +270,7 @@ def main():
 
         while True:
             clear_console()
-            title = f"[bold cyan]Student GPA & Progress Advisor[/bold cyan]\n[dim]Using file: {selected_data_file}[/dim]"
-            console.print(Panel(title, border_style="green"))
+            console.print(Panel("[bold cyan]Student GPA & Progress Advisor[/bold cyan]", border_style="green"))
             
             choice = questionary.select(
                 "What would you like to do?",
@@ -271,7 +279,7 @@ def main():
                     "View Report for a Specific Semester",
                     "View Full GPA Report (All Semesters)",
                     "Show Cumulative GPA Only",
-                    "Change Data File",
+                    "Paste New Data",
                     "Exit"
                 ]
             ).ask()
@@ -305,24 +313,18 @@ def main():
                 if semesters:
                     display_cumulative_gpa(console, semesters)
             
-            elif choice == "Change Data File":
-                selected_data_file = select_data_file(console)
-                if not selected_data_file:
-                    # If user cancels file selection, we can either exit or continue with old data.
-                    # For now, let's just loop back to the menu.
-                    console.print("[yellow]No new file selected. Continuing with the current file.[/yellow]")
+            elif choice == "Paste New Data":
+                student_response, error = get_pasted_data(console)
+                if error:
+                    console.print(f"[bold red]{error}[/bold red]")
+                    console.print("[bold yellow]Continuing with previous data.[/bold yellow]")
                 else:
-                    student_response, error = load_json_data(selected_data_file)
+                    semesters, passed, level, error = process_student_data(student_response, curriculum)
                     if error:
                         console.print(f"[bold red]{error}[/bold red]")
-                        console.print("[bold yellow]Reverting to previous data file.[/bold yellow]")
+                        console.print("[bold yellow]Could not process new data, reverting to previous data.[/bold yellow]")
                     else:
-                        semesters, passed, level, error = process_student_data(student_response, curriculum)
-                        if error:
-                            console.print(f"[bold red]{error}[/bold red]")
-                            console.print("[bold yellow]Could not process new file, reverting to previous data.[/bold yellow]")
-                        else:
-                            console.print(f"[green]Successfully loaded new data from {selected_data_file}[/green]")
+                        console.print(f"[green]Successfully loaded new pasted data.[/green]")
 
             elif choice == "Exit" or choice is None:
                 break
