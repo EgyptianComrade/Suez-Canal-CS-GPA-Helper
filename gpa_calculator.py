@@ -50,7 +50,7 @@ def process_student_data(student_response, curriculum):
 
     level_map = {"First": 1, "Second": 2, "Third": 3, "Fourth": 4}
     semesters = {}
-    passed_courses = set()
+    all_attempts = defaultdict(list)  # Track all attempts for each course code
     highest_level = 0
 
     for course in student_response.get('studentProgress', []):
@@ -90,24 +90,59 @@ def process_student_data(student_response, curriculum):
                 is_finished = True
                 if 'P' in grade_n.upper():
                     degree_display, letter_grade, status = "Pass", "P", "Passed"
+                elif 'BF' in grade_n.upper():
+                    # Show numeric degree if present, else 'BF'
+                    deg_val = course.get('Degree', '')
+                    degree_display = deg_val if deg_val not in (None, '', 'BF', 'bf') else 'BF'
+                    letter_grade = "BF"
+                    status = "Failed"
+                    grade_points = 0.0
                 else:
                     degree_display, letter_grade, status = "Fail", "F", "Failed"
         else: # Regular course logic
             degree_str = course.get('Degree', '')
-            try:
-                degree_val = float(degree_str)
+            grade_n = course.get('gradeN', '')
+            # If gradeN contains BF, always fail regardless of numeric degree
+            if isinstance(grade_n, str) and 'BF' in grade_n.upper():
                 is_finished = True
-                grade_info = get_grade_info(degree_val)
-                letter_grade = grade_info['letter']
-                grade_points = grade_info['points']
-                degree_display = degree_str
-                status = "Passed" if grade_points > 0 else "Failed"
-            except (ValueError, TypeError):
-                pass # Stays as "In Progress"
+                # Show numeric degree if present, else 'BF'
+                degree_display = degree_str if degree_str not in (None, '', 'BF', 'bf') else 'BF'
+                letter_grade = "BF"
+                status = "Failed"
+                grade_points = 0.0
+            elif isinstance(degree_str, str) and degree_str.strip().upper() == 'BF':
+                is_finished = True
+                degree_display = "BF"
+                letter_grade = "BF"
+                status = "Failed"
+                grade_points = 0.0
+            else:
+                try:
+                    degree_val = float(degree_str)
+                    is_finished = True
+                    grade_info = get_grade_info(degree_val)
+                    letter_grade = grade_info['letter']
+                    grade_points = grade_info['points']
+                    degree_display = degree_str
+                    status = "Passed" if grade_points > 0 else "Failed"
+                except (ValueError, TypeError):
+                    pass # Stays as "In Progress"
 
-        if is_finished and status == "Passed":
-            passed_courses.add(code)
-        
+        # Store all attempts for retake logic
+        all_attempts[code].append({
+            'semester_id': semester_id,
+            'name': course_info['name'],
+            'code': code,
+            'degree': degree_display,
+            'letter': letter_grade,
+            'hours': course_info['credit_hours'],
+            'status': status,
+            'is_finished': is_finished,
+            'grade_points': grade_points,
+            'is_uni_course': is_uni_course,
+            'course_info': course_info
+        })
+
         # Determine academic year string
         level_str = course_info.get('level', 'Unknown').split(' ')[0]
         level_ord = level_map.get(level_str, 0)
@@ -116,18 +151,38 @@ def process_student_data(student_response, curriculum):
             year = start_year + level_ord - 1
             semesters[semester_id]['year_str'] = f"{year}/{year + 1}"
         
-        if not course.get('register') == '1' and not is_finished:
-            continue
-            
-        semesters[semester_id]['courses'].append({
-            'name': course_info['name'], 'code': code, 'degree': degree_display,
-            'letter': letter_grade, 'hours': course_info['credit_hours'], 'status': status
-        })
+    # Now, for each course code, decide which attempts to count for GPA/progress
+    passed_courses = set()
+    for code, attempts in all_attempts.items():
+        # Sort attempts by semester (assuming semester_id is sortable)
+        attempts_sorted = sorted(attempts, key=lambda x: x['semester_id'])
+        # Add all attempts to their respective semesters for display
+        for att in attempts_sorted:
+            if not att['is_uni_course'] and not att['is_finished'] and att['status'] == 'In Progress':
+                # Only show registered/in-progress if not finished
+                course_obj = att.copy()
+                semesters[att['semester_id']]['courses'].append(course_obj)
+            elif att['is_finished'] or att['status'] != 'In Progress':
+                semesters[att['semester_id']]['courses'].append(att.copy())
+        # Only the latest passing attempt counts for progress and GPA
+        latest_pass = None
+        for att in reversed(attempts_sorted):
+            if att['is_finished'] and att['status'] == 'Passed':
+                latest_pass = att
+                break
+        if latest_pass:
+            passed_courses.add(code)
+        # For GPA, only count the latest finished attempt (even if failed)
+        latest_finished = None
+        for att in reversed(attempts_sorted):
+            if att['is_finished'] and not att['is_uni_course']:
+                latest_finished = att
+                break
+        if latest_finished:
+            sem = semesters[latest_finished['semester_id']]
+            sem['total_points'] += latest_finished['grade_points'] * latest_finished['hours']
+            sem['total_hours'] += latest_finished['hours']
 
-        if is_finished and not is_uni_course:
-            semesters[semester_id]['total_points'] += grade_points * course_info['credit_hours']
-            semesters[semester_id]['total_hours'] += course_info['credit_hours']
-            
     return semesters, passed_courses, highest_level, None
 
 # --- Display Functions ---
