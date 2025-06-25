@@ -231,7 +231,7 @@
     <div class="container">
         <div class="header">
             <h1>🎓 Suez University GPA & Progress Advisor</h1>
-            <p>Calculate your GPA and track your academic progress with ease</p>
+            <p>Calculate your GPA and track your academic progress for <b>Computer Science</b> and <b>Engineering</b> majors. More faculties will be added soon!</p>
         </div>
         
         <div class="card">
@@ -357,16 +357,6 @@
                         </td>
                         <td>Installs all the required Python packages</td>
                     </tr>
-                    <tr>
-                        <td><strong>2</strong></td>
-                        <td>
-                            <div class="command-code">
-                                <span>python build_curriculum.py</span>
-                                <button class="copy-btn" onclick="copyToClipboard('python build_curriculum.py', this)">📋 Copy</button>
-                            </div>
-                        </td>
-                        <td>Creates the curriculum data file needed for calculations</td>
-                    </tr>
                 </tbody>
             </table>
             
@@ -388,27 +378,20 @@
                                 <button class="copy-btn" onclick="copyToClipboard('python gpa_calculator.py', this)">📋 Copy</button>
                             </div>
                         </td>
-                        <td>Starts the GPA calculator program</td>
+                        <td>Starts the GPA calculator program. You will be prompted to select your faculty (Computer Science or Engineering) at the start.</td>
                     </tr>
                 </tbody>
             </table>
             
             <h3 style="color: #667eea; margin: 2rem 0 1rem 0;">📝 Using the Program</h3>
             <ol class="steps">
-                <li>When the program starts, it will ask you to paste your student data</li>
-                <li>Copy the JSON data from the student portal (see "How to Get Your Student Data" section above)</li>
-                <li>Right-click in the terminal to paste (or Ctrl+V on some systems)</li>
-                <li>Press Enter to submit the data</li>
-                <li>Use the menu to explore different reports and analyses</li>
+                <li>When the program starts, select your faculty (Computer Science or Engineering).</li>
+                <li>Paste your student data as described above.</li>
+                <li>Follow the on-screen menu to view your GPA, progress, and more.</li>
             </ol>
             
             <div class="warning">
-                <strong>🔧 Troubleshooting:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li>If you get "python not found", try using <code>python3</code> instead of <code>python</code></li>
-                    <li>On Windows, if pip doesn't work, try <code>python -m pip install -r requirements.txt</code></li>
-                    <li>Make sure you're in the correct folder - you should see files like <code>gpa_calculator.py</code> when you type <code>dir</code> (Windows) or <code>ls</code> (Mac/Linux)</li>
-                </ul>
+                <strong>Note:</strong> This tool currently supports <b>Computer Science</b> and <b>Engineering</b> majors. More faculties will be added in the future. If you have a curriculum you'd like to see supported, please open an issue or pull request on GitHub!
             </div>
             
             <div style="text-align: center; margin-top: 2rem;">
