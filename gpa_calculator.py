@@ -32,6 +32,43 @@ def get_grade_info(degree):
     if score >= 50: return {'letter': 'D-', 'points': 1.0}
     return {'letter': 'F', 'points': 0.0}
 
+# --- Software Engineering Grading Scheme ---
+SOFTWARE_ENG_GPA_MAP = {
+    50: 1.00, 51: 1.02, 52: 1.08, 53: 1.12, 54: 1.18, 55: 1.24, 56: 1.28, 57: 1.34, 58: 1.38, 59: 1.44,
+    60: 1.48, 61: 1.54, 62: 1.58, 63: 1.64, 64: 1.68, 65: 1.74, 66: 1.78, 67: 1.84, 68: 1.88, 69: 1.94,
+    70: 1.98, 71: 2.04, 72: 2.08, 73: 2.14, 74: 2.18, 75: 2.24, 76: 2.28, 77: 2.34, 78: 2.38, 79: 2.44,
+    80: 2.48, 81: 2.54, 82: 2.58, 83: 2.64, 84: 2.68, 85: 2.74, 86: 2.78, 87: 2.84, 88: 2.88, 89: 2.94,
+    90: 2.98, 91: 3.04, 92: 3.08, 93: 3.14, 94: 3.18, 95: 3.24, 96: 3.28, 97: 3.34, 98: 3.38, 99: 3.44, 100: 4.00
+}
+def get_grade_info_software_eng(degree):
+    """Converts a numerical degree to a letter grade and GPA points for Software Engineering branch using precise mapping."""
+    try:
+        score = float(degree)
+    except (ValueError, TypeError):
+        return {'letter': 'N/A', 'points': 0.0}
+    percent = int(score)
+    if percent < 50:
+        return {'letter': 'F', 'points': 0.0}
+    # Find the closest lower percentage in the map
+    for p in range(percent, 49, -1):
+        if p in SOFTWARE_ENG_GPA_MAP:
+            gpa = SOFTWARE_ENG_GPA_MAP[p]
+            break
+    else:
+        gpa = 0.0
+    # Letter grade logic (as before, or you can refine)
+    if percent >= 95: letter = 'A+'
+    elif percent >= 90: letter = 'A'
+    elif percent >= 85: letter = 'A-'
+    elif percent >= 80: letter = 'B+'
+    elif percent >= 75: letter = 'B'
+    elif percent >= 70: letter = 'C+'
+    elif percent >= 65: letter = 'C'
+    elif percent >= 60: letter = 'D+'
+    elif percent >= 50: letter = 'D'
+    else: letter = 'F'
+    return {'letter': letter, 'points': gpa}
+
 # --- Data Loading and Processing ---
 def load_json_data(file_path):
     """Loads data from a JSON file."""
@@ -283,844 +320,32 @@ def get_pasted_data(console):
     except json.JSONDecodeError:
         return None, "Error: Invalid JSON format. Please make sure you copied the entire content correctly."
 
-# --- Hardcoded Curricula ---
-COMPUTER_SCIENCE_CURRICULUM = {
-     "BSD101": {
-        "name": "Calculus",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD103": {
-        "name": "Discrete Mathematics",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "CSD102": {
-        "name": "Basics of Computer Science",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "ISD101": {
-        "name": "Fundamentals of Information Systems",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "ISD102": {
-        "name": "Introduction to Database Systems",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD104": {
-        "name": "Linear Algebra",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD105": {
-        "name": "Statistics and Probabilities",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD101"
-        ],
-        "level": "First Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD226": {
-        "name": "Technical Writing",
-        "credit_hours": 2,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "CSD101": {
-        "name": "Digital Logic Design",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "CSD106": {
-        "name": "Fundamentals of Programming",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD102"
-        ],
-        "level": "First Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "ISD104": {
-        "name": "System Analysis and Design",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD102"
-        ],
-        "level": "First Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD220": {
-        "name": "Stochastic Process",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD105"
-        ],
-        "level": "Second Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD222": {
-        "name": "Operations Research",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD101",
-            "BSD104"
-        ],
-        "level": "Second Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "CSD221": {
-        "name": "Data Structures",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD106"
-        ],
-        "level": "Second Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "CSD223": {
-        "name": "Object-Oriented Programming",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD106"
-        ],
-        "level": "Second Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "ISD224": {
-        "name": "Web Pages Programming",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Second Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD227": {
-        "name": "Ordinary Differential Equations",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD101"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD228": {
-        "name": "Advanced Math",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD101"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "BSD232": {
-        "name": "Physics",
-        "credit_hours": 2,
-        "prerequisites": [
-            "CSD101"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "CSD230": {
-        "name": "Analysis of Algorithms",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD221"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "ISD229": {
-        "name": "Electronic Business",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "General"
-    },
-    "ISD225": {
-        "name": "Information Theory",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "Elective"
-    },
-    "CSD231": {
-        "name": "Concepts of Programming Languages",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD106"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "Elective"
-    },
-    "ISD232": {
-        "name": "Web Technology",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD224"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "Elective"
-    },
-    "BSD233": {
-        "name": "Numerical Analysis",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD101"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "Elective"
-    },
-    "BSD229": {
-        "name": "Advanced Math-2",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD228"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "Elective"
-    },
-    "BSD234": {
-        "name": "Partial Differential Equations",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD101"
-        ],
-        "level": "Second Level",
-        "semester": "2nd Semester",
-        "track": "General",
-        "type": "Elective"
-    },
-    "CSD331": {
-        "name": "Artificial Intelligence",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD230"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "CSD332": {
-        "name": "Computer Architecture",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD101"
-        ],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD333": {
-        "name": "Operating Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD230"
-        ],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD334": {
-        "name": "Digital Image Processing",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD104",
-            "CSD230"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "CSD335": {
-        "name": "Assembly Language",
-        "credit_hours": 2,
-        "prerequisites": [
-            "CSD101"
-        ],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD336": {
-        "name": "Theory and Design of Compilers",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD231"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD337": {
-        "name": "Computer Graphics",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD230"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD338": {
-        "name": "Introduction to Computer Networks",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD332"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD341": {
-        "name": "Software Engineering",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD104"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "CSD340": {
-        "name": "Simulation and Modeling",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD105"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD342": {
-        "name": "Advanced Programming Languages",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD223"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "ISD303": {
-        "name": "Information Visualization",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD101"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "CSD343": {
-        "name": "Digital Signal Processing",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD230"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "CSD344": {
-        "name": "Logic Programming",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD335"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "ISD352": {
-        "name": "Knowledge Representation & Reasoning",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "CSD339": {
-        "name": "Mobile Computing",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "CSD345": {
-        "name": "Computer Arabization",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD106"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "ISD335": {
-        "name": "Security and Cryptography",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "CSD346": {
-        "name": "Human Computer Interaction",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD106"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "ISD347": {
-        "name": "Computer Network Management",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD104"
-        ],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD331": {
-        "name": "Information Retrieval Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD104"
-        ],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD333": {
-        "name": "Decision Support Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD104"
-        ],
-        "level": "Third Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD338": {
-        "name": "Big Data Analysis",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD104"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "ISD336": {
-        "name": "Advanced Database Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD102"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD337": {
-        "name": "Information Security",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD365": {
-        "name": "Electronic Government",
-        "credit_hours": 2,
-        "prerequisites": [],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD334": {
-        "name": "Management Information Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD101"
-        ],
-        "level": "Third Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "CSD441": {
-        "name": "Mobile Communication Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD338"
-        ],
-        "level": "Fourth Level",
-        "semester": "1st Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD444": {
-        "name": "Distributed Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD333"
-        ],
-        "level": "Fourth Level",
-        "semester": "1st Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD443": {
-        "name": "Computer Vision Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD334"
-        ],
-        "level": "Fourth Level",
-        "semester": "1st Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD449": {
-        "name": "Graduation Project",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD449 (1st Sem)"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD451": {
-        "name": "Computer and Network Security",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD332"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD447": {
-        "name": "Cloud Computing",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD444"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD442": {
-        "name": "Neural Networks and Deep Learning",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD331"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "General"
-    },
-    "CSD452": {
-        "name": "Dynamic Languages",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD106"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "ISD471": {
-        "name": "Data Mining",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD102"
-        ],
-        "level": "Fourth Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "CSD453": {
-        "name": "Introduction to Quantum Computing",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD228"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "CSD458": {
-        "name": "Cyber Security",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD337"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD441": {
-        "name": "Bioinformatics",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD102"
-        ],
-        "level": "Fourth Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "CSD446": {
-        "name": "Optimization Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD331"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "CSD448": {
-        "name": "Parallel Processing",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD333"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Computer Science",
-        "type": "Elective"
-    },
-    "CSD445": {
-        "name": "Introduction to Machine Learning",
-        "credit_hours": 3,
-        "prerequisites": [
-            "CSD331"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD444": {
-        "name": "Medical Information Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD101"
-        ],
-        "level": "Fourth Level",
-        "semester": "1st Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD446": {
-        "name": "Graduation Project",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD446 (1st Sem)"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD445": {
-        "name": "Geographical Information Systems",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD334"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "General"
-    },
-    "ISD451": {
-        "name": "XML Databases",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD102"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "ISD453": {
-        "name": "Web Information Systems",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "ISD456": {
-        "name": "Quantum Information",
-        "credit_hours": 3,
-        "prerequisites": [
-            "BSD228"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "ISD455": {
-        "name": "Electronic Health",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "ISD452": {
-        "name": "Electronic Commerce",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    },
-    "ISD454": {
-        "name": "Cloud Computing Applications",
-        "credit_hours": 3,
-        "prerequisites": [
-            "ISD332"
-        ],
-        "level": "Fourth Level",
-        "semester": "2nd Semester",
-        "track": "Information Systems",
-        "type": "Elective"
-    }
-}
+def load_curriculums():
+    """Loads all curricula from curriculums.json."""
+    with open('curriculums.json', 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-ENGINEERING_CURRICULUM = {
-    # Placeholder for Engineering curriculum
-    "ENG101": {
-        "name": "Engineering Placeholder Course",
-        "credit_hours": 3,
-        "prerequisites": [],
-        "level": "First Level",
-        "semester": "1st Semester",
-        "track": "General",
-        "type": "General"
-    }
-}
+def flatten_se_curriculum(json_data):
+    """Flattens the nested Software Engineering curriculum JSON into a flat dict like the General curriculum."""
+    flat = {}
+    for level, semesters in json_data.items():
+        if not isinstance(semesters, dict):
+            continue
+        for semester, courses in semesters.items():
+            if not isinstance(courses, list):
+                continue
+            for course in courses:
+                code = course['code']
+                flat[code] = {
+                    'name': course['name'],
+                    'credit_hours': course.get('credit_hours', 3),
+                    'prerequisites': course.get('prerequisites', []),
+                    'level': course['level'],
+                    'semester': course['semester'],
+                    'track': course.get('type', 'General'),
+                    'type': course.get('type', 'General')
+                }
+    return flat
 
 # --- Main Application ---
 def main():
@@ -1131,14 +356,33 @@ def main():
         "Select your faculty:",
         choices=[
             "Faculty of Computer Science and Informatics",
-            "Faculty of Engineering"
+            questionary.Choice("Faculty of Engineering (Coming Soon!)", disabled="Not available yet")
         ]
     ).ask()
 
     if faculty_choice == "Faculty of Computer Science and Informatics":
-        curriculum = COMPUTER_SCIENCE_CURRICULUM
+        # Branch selection for Computer Science
+        branch_choice = questionary.select(
+            "Select your branch:",
+            choices=[
+                "General",
+                "Software Engineering",
+                questionary.Choice("Artificial Intelligence (Coming Soon!)", disabled="Not available yet")
+            ]
+        ).ask()
+        
+        curriculums = load_curriculums()
+        if branch_choice == "General":
+            curriculum = curriculums["General"]
+            grade_info_func = get_grade_info
+        elif branch_choice == "Software Engineering":
+            curriculum = flatten_se_curriculum(curriculums["SoftwareEngineering"])
+            grade_info_func = get_grade_info_software_eng
     else:
-        curriculum = ENGINEERING_CURRICULUM
+            curriculum = curriculums["General"]
+            grade_info_func = get_grade_info
+    else:
+        curriculum = {}
 
     # Check if running in a non-interactive CI environment
     is_ci = os.getenv('CI') == 'true' or os.getenv('GITHUB_ACTIONS') == 'true'
