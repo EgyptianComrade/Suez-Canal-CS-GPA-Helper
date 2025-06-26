@@ -350,7 +350,8 @@ def flatten_se_curriculum(json_data):
 # --- Main Application ---
 def main():
     console = Console()
-    
+    curriculums = load_curriculums()
+
     # Faculty selection
     faculty_choice = questionary.select(
         "Select your faculty:",
@@ -371,7 +372,6 @@ def main():
             ]
         ).ask()
         
-        curriculums = load_curriculums()
         if branch_choice == "General":
             curriculum = curriculums["General"]
             grade_info_func = get_grade_info
@@ -379,10 +379,8 @@ def main():
             curriculum = flatten_se_curriculum(curriculums["SoftwareEngineering"])
             grade_info_func = get_grade_info_software_eng
     else:
-            curriculum = curriculums["General"]
-            grade_info_func = get_grade_info
-    else:
-        curriculum = {}
+        curriculum = curriculums["General"]
+        grade_info_func = get_grade_info
 
     # Check if running in a non-interactive CI environment
     is_ci = os.getenv('CI') == 'true' or os.getenv('GITHUB_ACTIONS') == 'true'
