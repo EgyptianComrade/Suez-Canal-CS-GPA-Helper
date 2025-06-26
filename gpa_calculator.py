@@ -277,6 +277,9 @@ def display_progress_report(console, curriculum, passed_courses):
     total_hours = sum(c['credit_hours'] for c in curriculum.values())
     completed_hours = sum(curriculum[c]['credit_hours'] for c in passed_courses if c in curriculum)
     
+    if total_hours == 0:
+        console.print("[bold red]No curriculum credit hours found. Please check your curriculum data.[/bold red]")
+        return
     console.print(f"[bold]Credit Hours:[/bold] {completed_hours} / {total_hours} ({completed_hours/total_hours:.1%}) Completed\n")
     
     remaining_courses = {code: data for code, data in curriculum.items() if code not in passed_courses}
