@@ -33,41 +33,33 @@ def get_grade_info(degree):
     return {'letter': 'F', 'points': 0.0}
 
 # --- Software Engineering Grading Scheme ---
-SOFTWARE_ENG_GPA_MAP = {
-    50: 1.00, 51: 1.02, 52: 1.08, 53: 1.12, 54: 1.18, 55: 1.24, 56: 1.28, 57: 1.34, 58: 1.38, 59: 1.44,
-    60: 1.48, 61: 1.54, 62: 1.58, 63: 1.64, 64: 1.68, 65: 1.74, 66: 1.78, 67: 1.84, 68: 1.88, 69: 1.94,
-    70: 1.98, 71: 2.04, 72: 2.08, 73: 2.14, 74: 2.18, 75: 2.24, 76: 2.28, 77: 2.34, 78: 2.38, 79: 2.44,
-    80: 2.48, 81: 2.54, 82: 2.58, 83: 2.64, 84: 2.68, 85: 2.74, 86: 2.78, 87: 2.84, 88: 2.88, 89: 2.94,
-    90: 2.98, 91: 3.04, 92: 3.08, 93: 3.14, 94: 3.18, 95: 3.24, 96: 3.28, 97: 3.34, 98: 3.38, 99: 3.44, 100: 4.00
-}
+SOFTWARE_ENG_GPA_MAP = [
+    (95, 100, 3.7, 4.0, 'A+'),
+    (90, 95, 3.4, 3.7, 'A'),
+    (85, 90, 3.1, 3.4, 'A-'),
+    (80, 85, 2.8, 3.1, 'B+'),
+    (75, 80, 2.5, 2.8, 'B'),
+    (70, 75, 2.2, 2.5, 'C+'),
+    (65, 70, 1.9, 2.2, 'C'),
+    (60, 65, 1.6, 1.9, 'D+'),
+    (50, 60, 1.0, 1.6, 'D'),
+    (0, 50, 0.0, 0.0, 'F'),
+]
 def get_grade_info_software_eng(degree):
-    """Converts a numerical degree to a letter grade and GPA points for Software Engineering branch using precise mapping."""
+    """Converts a numerical degree to a letter grade and GPA points for Software Engineering branch using the provided mapping."""
     try:
         score = float(degree)
     except (ValueError, TypeError):
         return {'letter': 'N/A', 'points': 0.0}
-    percent = int(score)
-    if percent < 50:
-        return {'letter': 'F', 'points': 0.0}
-    # Find the closest lower percentage in the map
-    for p in range(percent, 49, -1):
-        if p in SOFTWARE_ENG_GPA_MAP:
-            gpa = SOFTWARE_ENG_GPA_MAP[p]
-            break
-    else:
-        gpa = 0.0
-    # Letter grade logic (as before, or you can refine)
-    if percent >= 95: letter = 'A+'
-    elif percent >= 90: letter = 'A'
-    elif percent >= 85: letter = 'A-'
-    elif percent >= 80: letter = 'B+'
-    elif percent >= 75: letter = 'B'
-    elif percent >= 70: letter = 'C+'
-    elif percent >= 65: letter = 'C'
-    elif percent >= 60: letter = 'D+'
-    elif percent >= 50: letter = 'D'
-    else: letter = 'F'
-    return {'letter': letter, 'points': gpa}
+    for lower, upper, gpa_min, gpa_max, letter in SOFTWARE_ENG_GPA_MAP:
+        if lower <= score < upper or (upper == 100 and score == 100):
+            # Linear interpolation within the range
+            if gpa_min == gpa_max:
+                gpa = gpa_min
+            else:
+                gpa = gpa_min + (gpa_max - gpa_min) * (score - lower) / (upper - lower)
+            return {'letter': letter, 'points': round(gpa, 2)}
+    return {'letter': 'F', 'points': 0.0}
 
 # --- Data Loading and Processing ---
 def load_json_data(file_path):
@@ -80,7 +72,7 @@ def load_json_data(file_path):
     except json.JSONDecodeError:
         return None, f"Error: Could not decode JSON in '{file_path}'."
 
-def process_student_data(student_response, curriculum):
+def process_student_data(student_response, curriculum, branch=None):
     """Processes student and curriculum data to build a complete academic profile."""
     start_year_match = re.search(r'^(\d{2})', student_response.get('StudentCode', ''))
     start_year = int(f"20{start_year_match.group(1)}") if start_year_match else 2020 # Fallback
@@ -92,6 +84,9 @@ def process_student_data(student_response, curriculum):
 
     for course in student_response.get('studentProgress', []):
         code = course.get('crscode', '|').split('|')[0]
+        # Normalize code for Software Engineering branch only
+        if branch == "Software Engineering":
+            code = code.replace('-', '')
         is_uni_course = code.startswith('UNI-')
 
         # Use curriculum data for consistency, but handle if UNI course is not in our curriculum file
@@ -126,7 +121,7 @@ def process_student_data(student_response, curriculum):
             if grade_n is not None and grade_n != '':
                 is_finished = True
                 if 'P' in grade_n.upper():
-                    degree_display, letter_grade, status = "Pass", "P", "Passed"
+                    degree_display, letter_grade, status = "Passed", "P", "Passed"  # Show 'Passed' as degree
                 elif 'BF' in grade_n.upper():
                     # Show numeric degree if present, else 'BF'
                     deg_val = course.get('Degree', '')
@@ -157,7 +152,11 @@ def process_student_data(student_response, curriculum):
                 try:
                     degree_val = float(degree_str)
                     is_finished = True
-                    grade_info = get_grade_info(degree_val)
+                    # Use the correct grading scheme for GPA calculation
+                    if branch == "Software Engineering":
+                        grade_info = get_grade_info_software_eng(degree_val)
+                    else:
+                        grade_info = get_grade_info(degree_val)
                     letter_grade = grade_info['letter']
                     grade_points = grade_info['points']
                     degree_display = degree_str
@@ -209,13 +208,13 @@ def process_student_data(student_response, curriculum):
                 break
         if latest_pass:
             passed_courses.add(code)
-        # For GPA, only count the latest finished attempt (even if failed)
+        # For GPA, only count the latest finished attempt (even if failed), and skip UNI courses
         latest_finished = None
         for att in reversed(attempts_sorted):
             if att['is_finished'] and not att['is_uni_course']:
                 latest_finished = att
                 break
-        if latest_finished:
+        if latest_finished and not latest_finished['is_uni_course']:
             sem = semesters[latest_finished['semester_id']]
             sem['total_points'] += latest_finished['grade_points'] * latest_finished['hours']
             sem['total_hours'] += latest_finished['hours']
@@ -329,7 +328,7 @@ def load_curriculums():
         return json.load(f)
 
 def flatten_se_curriculum(json_data):
-    """Flattens the nested Software Engineering curriculum JSON into a flat dict like the General curriculum."""
+    """Flattens the nested Software Engineering curriculum JSON into a flat dict like the General curriculum, including both dashed and non-dashed codes as keys."""
     flat = {}
     for level, semesters in json_data.items():
         if not isinstance(semesters, dict):
@@ -348,13 +347,20 @@ def flatten_se_curriculum(json_data):
                     'track': course.get('type', 'General'),
                     'type': course.get('type', 'General')
                 }
+                # Also add a version with dashes if not present
+                if '-' not in code:
+                    dashed_code = code[:3] + '-' + code[3:] if len(code) > 3 else code
+                    flat[dashed_code] = flat[code]
+                else:
+                    nodash_code = code.replace('-', '')
+                    flat[nodash_code] = flat[code]
     return flat
 
 # --- Main Application ---
 def main():
     console = Console()
     curriculums = load_curriculums()
-
+    
     # Faculty selection
     faculty_choice = questionary.select(
         "Select your faculty:",
@@ -379,7 +385,7 @@ def main():
             curriculum = curriculums["General"]
             grade_info_func = get_grade_info
         elif branch_choice == "Software Engineering":
-            curriculum = flatten_se_curriculum(curriculums["SoftwareEngineering"])
+            curriculum = flatten_se_curriculum(curriculums["SoftwareEngineering"]["curriculum"])
             grade_info_func = get_grade_info_software_eng
     else:
         curriculum = curriculums["General"]
@@ -395,7 +401,7 @@ def main():
         if error:
             console.print(f"[bold red]{error}[/bold red]"); return
 
-        semesters, passed, level, error = process_student_data(student_response, curriculum)
+        semesters, passed, level, error = process_student_data(student_response, curriculum, branch_choice)
         if error:
             console.print(f"[bold red]{error}[/bold red]"); return
             
@@ -413,7 +419,7 @@ def main():
             console.print(f"[bold red]{error}[/bold red]")
             return
 
-        semesters, passed, level, error = process_student_data(student_response, curriculum)
+        semesters, passed, level, error = process_student_data(student_response, curriculum, branch_choice)
         if error:
             console.print(f"[bold red]{error}[/bold red]"); return
 
@@ -468,7 +474,7 @@ def main():
                     console.print(f"[bold red]{error}[/bold red]")
                     console.print("[bold yellow]Continuing with previous data.[/bold yellow]")
                 else:
-                    semesters, passed, level, error = process_student_data(student_response, curriculum)
+                    semesters, passed, level, error = process_student_data(student_response, curriculum, branch_choice)
                     if error:
                         console.print(f"[bold red]{error}[/bold red]")
                         console.print("[bold yellow]Could not process new data, reverting to previous data.[/bold yellow]")
